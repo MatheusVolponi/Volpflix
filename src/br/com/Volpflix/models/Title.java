@@ -1,12 +1,17 @@
 package br.com.Volpflix.models;
 
-public class Title {
+public class Title implements Comparable<Title>{
     private String name;
     private int releaseYear;
     private boolean planIncluded;
     private double review; // soma das Avaliações
     private int totalReviews; // Total de avaliaçoes
     private int lengthInMinutes;
+
+    public Title(String name, int releaseYear) {
+        this.name = name;
+        this.releaseYear = releaseYear;
+    }
 
     public void displayTechnicalSheet(){
         System.out.println("Título: " + name);
@@ -15,11 +20,13 @@ public class Title {
         System.out.println("Incluído no plano: " + planIncluded);
     }
 
+    // Funçao para avaliação
     public void rateMovie(double rate){
         review += rate;
         totalReviews++;
     }
 
+    // Média das avaliações
     public double avgReviews(){
         return review / totalReviews;
     }
@@ -58,5 +65,10 @@ public class Title {
 
     public void setLengthInMinutes(int lengthInMinutes) {
         this.lengthInMinutes = lengthInMinutes;
+    }
+
+    @Override
+    public int compareTo(Title otherTitle) {
+        return this.getName().compareTo(otherTitle.getName());
     }
 }
