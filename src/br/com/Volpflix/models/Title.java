@@ -1,5 +1,7 @@
 package br.com.Volpflix.models;
 
+import br.com.Volpflix.exceptions.YearConversionErrorException;
+
 public class Title implements Comparable<Title>{
     private String name;
     private int releaseYear;
@@ -11,6 +13,16 @@ public class Title implements Comparable<Title>{
     public Title(String name, int releaseYear) {
         this.name = name;
         this.releaseYear = releaseYear;
+    }
+
+    public Title(OmdbTitle myTitleOMDB) {
+        this.name = myTitleOMDB.title();
+
+        if(myTitleOMDB.year().length() > 4) {
+            throw new YearConversionErrorException("Não foi possível converter o ano porque há mais de 04 caractéres.");
+        }
+        this.releaseYear = Integer.valueOf(myTitleOMDB.year());
+        this.lengthInMinutes = Integer.valueOf(myTitleOMDB.Runtime().substring(0,3));
     }
 
     public void displayTechnicalSheet(){
@@ -70,5 +82,10 @@ public class Title implements Comparable<Title>{
     @Override
     public int compareTo(Title otherTitle) {
         return this.getName().compareTo(otherTitle.getName());
+    }
+
+    @Override
+    public String toString() {
+        return "[Nome: " + name + ", Ano de lançamento: " + releaseYear + ", Duração: " + lengthInMinutes + "]";
     }
 }
